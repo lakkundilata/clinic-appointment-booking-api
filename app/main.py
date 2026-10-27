@@ -110,7 +110,59 @@ class BookingCreate(BaseModel):
 def row_dict(row):
     return dict(row) if row is not None else None
 
+from fastapi.responses import HTMLResponse
 
+@app.get("/", response_class=HTMLResponse)
+def root():
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Clinic Appointment Booking API</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 850px;
+                margin: 60px auto;
+                padding: 20px;
+                background: #f4f7fb;
+                color: #243247;
+            }
+            h1 { color: #176b55; }
+            .card {
+                background: white;
+                padding: 24px;
+                border-radius: 12px;
+                margin-top: 20px;
+            }
+            a { color: #176b55; }
+            li { margin: 12px 0; }
+        </style>
+    </head>
+    <body>
+        <h1>Clinic Appointment Booking API</h1>
+        <p>Welcome! The API is running successfully.</p>
+
+        <div class="card">
+            <h2>API Documentation</h2>
+            <p><a href="/docs">Open Swagger API documentation</a></p>
+            <p><a href="/health">Check API health</a></p>
+        </div>
+
+        <div class="card">
+            <h2>Available Endpoints</h2>
+            <ul>
+                <li>POST /slots — Create a clinic slot</li>
+                <li>GET /slots — List clinic slots</li>
+                <li>DELETE /slots/{slot_id} — Delete a slot</li>
+                <li>POST /bookings — Book an appointment</li>
+                <li>GET /bookings/{booking_id} — View a booking</li>
+                <li>DELETE /bookings/{booking_id} — Cancel a booking</li>
+            </ul>
+        </div>
+    </body>
+    </html>
+    """
 @app.get("/health")
 def health():
     return {"status": "ok"}
